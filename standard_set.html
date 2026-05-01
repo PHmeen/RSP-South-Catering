@@ -1,0 +1,942 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Standard Set (เซตที่ 2)</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600&family=Sarabun:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #2b2b2b;
+        --accent: #c58c41;
+        --accent-warm: #fdf3e1;
+        --green: #10b981;
+        --green-light: #d1fae5;
+        --red: #ef4444;
+        --red-light: #fee2e2;
+        --bg-color: #f8f9fa;
+        --gray-light: #e5e7eb;
+        --gray: #6b7280;
+        --text: #1f2937;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Sarabun", sans-serif;
+        background: var(--bg-color);
+        color: var(--text);
+        padding-bottom: 110px;
+        scroll-behavior: smooth;
+      }
+      .hero {
+        height: 280px;
+        position: relative;
+        background: #000;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+      .hero img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.6;
+      }
+      .hero-text {
+        position: absolute;
+        bottom: 0;
+        padding: 3rem 10% 2rem;
+        color: #fff;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.95), transparent);
+        width: 100%;
+      }
+      .hero-text h1 {
+        font-family: "Kanit";
+        font-size: 2.5rem;
+        margin-bottom: 6px;
+        color: #fff;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      }
+      .hero-text p {
+        font-size: 1.05rem;
+        color: #e5e7eb;
+      }
+      .container {
+        padding: 2rem 10%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .summary-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(16px);
+        padding: 20px 25px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        margin-bottom: 40px;
+        position: sticky;
+        top: 20px;
+        z-index: 100;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        transition: 0.3s;
+      }
+      .summary-title {
+        font-family: "Kanit";
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: var(--primary);
+        margin-bottom: 8px;
+      }
+      .summary-tags-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .sum-tag {
+        background: #fff;
+        border: 1px solid var(--gray-light);
+        padding: 6px 14px;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+      }
+      .sum-tag .lbl {
+        color: var(--gray);
+        font-size: 0.85rem;
+      }
+      .sum-tag .val {
+        font-weight: 600;
+        color: var(--accent);
+      }
+      .progress-pill {
+        font-family: "Kanit";
+        color: var(--accent);
+        font-weight: 600;
+        font-size: 1.1rem;
+        background: var(--accent-warm);
+        padding: 10px 24px;
+        border-radius: 50px;
+        transition: all 0.4s;
+        white-space: nowrap;
+        box-shadow: 0 4px 10px rgba(197, 140, 65, 0.15);
+        border: 2px solid transparent;
+      }
+      .progress-pill.complete {
+        background: var(--green);
+        color: #fff;
+        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        transform: scale(1.05);
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+      .timeline {
+        position: relative;
+        padding-left: 45px;
+        margin-top: 20px;
+      }
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 17px;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: var(--gray-light);
+        border-radius: 50px;
+      }
+      .timeline-item {
+        position: relative;
+        margin-bottom: 50px;
+        scroll-margin-top: 150px;
+      }
+      .timeline-icon {
+        position: absolute;
+        left: -45px;
+        top: 0;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: var(--primary);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        box-shadow: 0 0 0 8px var(--bg-color);
+        z-index: 2;
+      }
+      .timeline-content {
+        background: #fff;
+        padding: 35px;
+        border-radius: 28px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+        border: 1px solid var(--gray-light);
+      }
+      .timeline-header {
+        border-bottom: 2px dashed var(--gray-light);
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+      }
+      .timeline-time {
+        color: var(--accent);
+        font-weight: bold;
+        font-size: 1.15rem;
+        font-family: "Kanit";
+        letter-spacing: 1px;
+      }
+      .timeline-title {
+        font-family: "Kanit";
+        font-size: 2rem;
+        color: var(--primary);
+        margin: 5px 0;
+      }
+      .timeline-desc {
+        color: var(--gray);
+        font-size: 1.05rem;
+      }
+      .req-box {
+        margin-bottom: 35px;
+        padding: 25px;
+        background: #fafafa;
+        border-radius: 20px;
+        border: 2px solid #f3f4f6;
+        transition: 0.3s;
+        scroll-margin-top: 140px;
+      }
+      .req-box.error {
+        border-color: var(--red);
+        background: var(--red-light);
+      }
+      .req-label {
+        font-family: "Kanit";
+        font-size: 1.3rem;
+        border-left: 5px solid var(--accent);
+        padding-left: 15px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .status-badge {
+        background: #e5e7eb;
+        color: var(--gray);
+        padding: 6px 16px;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        font-family: "Sarabun";
+        transition: 0.3s;
+      }
+      .status-badge.done {
+        background: var(--green-light);
+        color: #047857;
+        border: 1px solid #a7f3d0;
+      }
+      .status-badge.error {
+        background: #fca5a5;
+        color: #7f1d1d;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        gap: 20px;
+      }
+      .card {
+        background: #fff;
+        border: 2px solid var(--gray-light);
+        border-radius: 18px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.25s;
+        position: relative;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+      }
+      .card img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        transition: transform 0.5s;
+      }
+      .card-body {
+        padding: 16px;
+      }
+      .card-name {
+        font-family: "Kanit";
+        font-weight: 500;
+        font-size: 1.05rem;
+        color: var(--text);
+        line-height: 1.4;
+      }
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+        border-color: #d1d5db;
+      }
+      .card:hover img {
+        transform: scale(1.05);
+      }
+      .card.selected {
+        border-color: var(--green);
+        background: var(--green-light);
+        transform: scale(0.98);
+        box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+      }
+      .card.selected .card-name {
+        color: #047857;
+        font-weight: 600;
+      }
+      .card.selected::after {
+        content: "✓";
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: var(--green);
+        color: #fff;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        font-weight: bold;
+        z-index: 2;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+      .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 15px 10%;
+        border-top: 1px solid var(--gray-light);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.05);
+      }
+      .price {
+        font-family: "Kanit";
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: var(--accent);
+        line-height: 1;
+      }
+      .btn {
+        background: var(--primary);
+        color: #fff;
+        border: none;
+        padding: 16px 45px;
+        border-radius: 50px;
+        font-family: "Kanit";
+        font-size: 1.25rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 0 6px 20px rgba(43, 43, 43, 0.25);
+      }
+      .btn:hover {
+        background: var(--accent);
+        transform: translateY(-3px);
+      }
+      .btn.ready {
+        background: var(--green);
+        animation: pulseReady 1.5s infinite;
+      }
+      @keyframes pulseReady {
+        0% {
+          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
+        }
+        70% {
+          box-shadow: 0 0 0 12px rgba(16, 185, 129, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+        }
+      }
+      .cat-title {
+        font-family: "Kanit";
+        font-size: 1.25rem;
+        margin: 30px 0 15px 0;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 500;
+      }
+      .cat-title::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--gray-light);
+      }
+      @media (max-width: 768px) {
+        .hero-text,
+        .container,
+        .footer {
+          padding-left: 5%;
+          padding-right: 5%;
+        }
+        .summary-bar {
+          flex-direction: column-reverse;
+          gap: 15px;
+          align-items: stretch;
+        }
+        .progress-pill {
+          text-align: center;
+          justify-content: center;
+        }
+        .grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+        .card img {
+          height: 130px;
+        }
+        .timeline-content {
+          padding: 25px 20px;
+        }
+        .req-box {
+          padding: 18px;
+        }
+        .timeline-icon {
+          width: 32px;
+          height: 32px;
+          left: -39px;
+          font-size: 1rem;
+        }
+      }
+    
+      /* ===== BACK BUTTON ===== */
+      .back-btn {
+        position: fixed; top: 18px; left: 18px; z-index: 2000;
+        display: inline-flex; align-items: center; gap: 8px;
+        background: rgba(0,0,0,0.62); backdrop-filter: blur(10px);
+        color: #fff; font-family: 'Kanit', sans-serif; font-weight: 500;
+        font-size: 0.95rem; padding: 10px 22px; border-radius: 50px;
+        border: 1px solid rgba(255,255,255,0.25); cursor: pointer;
+        text-decoration: none; transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      }
+      .back-btn:hover { background: var(--accent); border-color: var(--accent); transform: scale(1.05); }
+    </style>
+  </head>
+  <body>
+    <a class="back-btn" href="main.html">← ย้อนกลับ</a>
+
+    <div class="hero">
+      <img
+        src="https://images.unsplash.com/photo-1548943487-a2e4f43b4850?w=1200&q=80"
+      />
+      <div class="hero-text">
+        <h1>Standard Set (เซตที่ 2)</h1>
+        <p>
+          เบรกเช้า: ขนม+เครื่องดื่มชงสด | อาหารกลางวัน: อาหารกล่อง กับข้าว 2
+          อย่าง | เบรกบ่าย: ขนม+น้ำผลไม้กล่อง
+        </p>
+      </div>
+    </div>
+    <div class="container">
+      <div class="summary-bar">
+        <div style="flex: 1">
+          <div class="summary-title">📝 รายการที่เลือก:</div>
+          <div id="summary-text">
+            <div
+              style="color: var(--gray); font-size: 0.95rem; margin-top: 5px"
+            >
+              💡 กรุณาคลิกเลือกเมนูในแต่ละหมวดหมู่ด้านล่าง...
+            </div>
+          </div>
+        </div>
+        <div id="progress" class="progress-pill">เลือกแล้ว 0/6</div>
+      </div>
+      <div class="timeline" id="timeline-area"></div>
+    </div>
+    <div class="footer">
+      <div>
+        <span class="price">230</span
+        ><span style="color: var(--gray); font-size: 1.1rem; font-weight: 500"
+          >฿ / ท่าน</span
+        >
+      </div>
+      <button class="btn" id="confirm-btn" onclick="confirmSelection()">
+        ยืนยันรายการ ➔
+      </button>
+    </div>
+
+    <script>
+      const menuOptions = {
+        snacks: [
+          { name: "โรลวัวลายครีมนมสด", img: "image/ขนม/โรลวัวลายครีมนมสด.png" },
+          { name: "แซนวิสโบราณ", img: "image/ขนม/แซนวิสโบราณ.png" },
+          { name: "บราวนี่", img: "image/ขนม/บราวนี่.png" },
+          { name: "เอแครวานิลลา", img: "image/ขนม/เอแครวานิลลา.png" },
+          { name: "เค้กกล้วยหอม", img: "image/ขนม/เค้กกล้วยหอม.png" },
+          { name: "ครัวซอง", img: "image/ขนม/ครัวซอง.png" },
+          { name: "ครอฟเฟิล", img: "image/ขนม/ครอฟเฟิล.png" },
+          { name: "เค้กซอสส้ม", img: "image/ขนม/เค้กซอสส้ม.png" },
+          { name: "เค้กซอสช๊อกโกแลต", img: "image/ขนม/เค้กซอสช๊อกโกแลต.png" },
+          { name: "ขนมปังไส้กรอก", img: "image/ขนม/ขนมปังไส้กรอก.png" },
+          {
+            name: "ขนมปังเผือกแปะก๊วย",
+            img: "image/ขนม/ขนมปังเผือกแปะก๊วย.png",
+          },
+          { name: "ขนมปังถั่วแดง", img: "image/ขนม/ขนมปังถั่วแดง.png" },
+          {
+            name: "ขนมปังไก่หยองน้ำสลัด",
+            img: "image/ขนม/ขนมปังไก่หยองน้ำสลัด.png",
+          },
+          { name: "ขนมปังสังขยาใบเตย", img: "image/ขนม/ขนมปังสังขยาใบเตย.png" },
+          { name: "ขนมปังสังขยาชาไทย", img: "image/ขนม/ขนมปังสังขยาชาไทย.png" },
+          { name: "Little cream bun", img: "image/ขนม/Little cream bun.png" },
+          { name: "ขนมปังมันม่วง", img: "image/ขนม/ขนมปังมันม่วง.png" },
+          { name: "พานาคอตต้า", img: "image/ขนม/พานาคอตต้า.png" },
+          {
+            name: "เค้กกล้วยหอมคาราเมล",
+            img: "image/ขนม/เค้กกล้วยหอมคาราเมล.png",
+          },
+          { name: "แซนวิสแฮมไก่", img: "image/ขนม/แซนวิสแฮมไก่.png" },
+          { name: "ข้าวต้มมัด", img: "image/ขนม/ข้าวต้มมัด.png" },
+          { name: "ลูกชุบ", img: "image/ขนม/ลูกชุบ.png" },
+          { name: "จีบนก (ไส้ไก่)", img: "image/ขนม/จีบนก.png" },
+          { name: "หัวล้านไส้มะพร้าว", img: "image/ขนม/หัวล้านไส้มะพร้าว.png" },
+          { name: "ขนมชั้นดอกไม้", img: "image/ขนม/ขนมชั้นดอกไม้.png" },
+          { name: "ข้าวเหนียวมะม่วง", img: "image/ขนม/ข้าวเหนียวมะม่วง.png" },
+          { name: "ขนมโค", img: "image/ขนม/ขนมโค.png" },
+          { name: "สาคูไส้ไก่", img: "image/ขนม/สาคูไส้ไก่.png" },
+          { name: "ขนมสอดไส้", img: "image/ขนม/ขนมสอดไส้.png" },
+        ],
+        beverages_juice: [{ name: "น้ำผลไม้(กล่อง)", img: "image/juice.png" }],
+        beverages_hot_cold: [
+          { name: "อเมริกาโน่ (ร้อน/เย็น)", img: "image/อเมริกาโน่.png" },
+          { name: "ลาเต้ (ร้อน/เย็น)", img: "image/ลาเต้.png" },
+          { name: "ชาเย็น", img: "image/ชาเย็น.png" },
+          { name: "ชาเขียว (ร้อน/เย็น)", img: "image/ชาเขียว.png" },
+          { name: "ชามะนาว", img: "image/ชามะนาว.png" },
+          { name: "โกโก้ (ร้อน/เย็น)", img: "image/โกโก้.png" },
+          { name: "ชาดำ (ร้อน/เย็น)", img: "image/ชาดำ.png" },
+          { name: "นมชมพู (ร้อน/เย็น)", img: "image/นมชมพู.png" },
+        ],
+        foods: [
+          {
+            name: "ข้าวมันแกงไก่ + ไก่ต้มดอกไม้จีน (เมนูแนะนำ)",
+            img: "image/ข้าว/ข้าวมันแกงไก่ + ไก่ต้มดอกไม้จีน.png",
+            cat: "buddhist",
+          },
+          {
+            name: "แกงส้มกุ้ง/ปลากะพง + ผัดเหรียงผัดไข่",
+            img: "image/ข้าว/แกงส้มกุ้ง/ปลากะพง + ผัดเหรียงผัดไข่.png",
+            cat: "buddhist",
+          },
+          {
+            name: "แกงส้มกุ้ง/ปลากะพง + ไก่ทอดกระเทียม",
+            img: "image/ข้าว/แกงส้มกุ้ง/ปลากะพง + ไก่ทอดกระเทียม.png",
+            cat: "buddhist",
+          },
+          {
+            name: "ฉู่ฉี่ปลากะพงทอด + ไก่ต้มเห็ดหอม",
+            img: "image/ข้าว/ฉู่ฉี่ปลากะพงทอด + ไก่ต้มเห็ดหอม.png",
+            cat: "buddhist",
+          },
+          {
+            name: "ฉู่ฉี่ปลากะพงทอด + ไข่เจียว/ดาว",
+            img: "image/ข้าว/ฉู่ฉี่ปลากะพงทอด + ไข่เจียว/ดาว.png",
+            cat: "buddhist",
+          },
+          {
+            name: "คั่วกลิ้งไก่สับ + กุ้งต้มบีบมะนาว",
+            img: "image/ข้าว/คั่วกลิ้งไก่สับ + กุ้งต้มบีบมะนาว.png",
+            cat: "buddhist",
+          },
+          {
+            name: "คั่วกลิ้งไก่สับ + ผัดผักรวม",
+            img: "image/ข้าว/คั่วกลิ้งไก่สับ + ผัดผักรวม.png",
+            cat: "buddhist",
+          },
+          {
+            name: "แกงเผ็ดไก่ฟักทอง + ไข่ลูกเขย",
+            img: "image/ข้าว/แกงเผ็ดไก่ฟักทอง + ไข่ลูกเขย.png",
+            cat: "buddhist",
+          },
+          {
+            name: "แกงเผ็ดไก่ฟักทอง + ยำปลาฉิ้งฉ้าง",
+            img: "image/ข้าว/แกงเผ็ดไก่ฟักทอง + ยำปลาฉิ้งฉ้าง.png",
+            cat: "buddhist",
+          },
+          {
+            name: "ปลาราดพริก + ต้มข่าไก่",
+            img: "image/ข้าว/ปลาราดพริก + ต้มข่าไก่.png",
+            cat: "buddhist",
+          },
+          {
+            name: "ผัดสะตอกุ้ง + ไข่เจียว/ไข่ดาว",
+            img: "image/ข้าว/ผัดสะตอกุ้ง + ไข่เจียว/ไข่ดาว.png",
+            cat: "buddhist",
+          },
+          {
+            name: "ผัดสะตอกุ้ง + ไก่ทอดกระเทียม",
+            img: "image/ข้าว/ผัดสะตอกุ้ง + ไก่ทอดกระเทียม.png",
+            cat: "buddhist",
+          },
+          {
+            name: "ผัดสะตอกุ้ง + หมูสามชั้นทอดกระเทียม",
+            img: "image/ข้าว/ผัดสะตอกุ้ง + หมูสามชั้นทอดกระเทียม.png",
+            cat: "buddhist",
+          },
+          {
+            name: "กะเพราเนื้อ + ไก่ต้มเห็ดหอม",
+            img: "image/ข้าว/กะเพราเนื้อ + ไก่ต้มเห็ดหอม.png",
+            cat: "buddhist",
+          },
+          {
+            name: "กะเพราเนื้อ + ไข่ดาว/ไข่เจียว",
+            img: "image/ข้าว/กะเพราเนื้อ + ไข่ดาว/ไข่เจียว.png",
+            cat: "buddhist",
+          },
+          {
+            name: "มัสมั่นไก่ + ยำไก่เชียง",
+            img: "image/ข้าว/มัสมั่นไก่ + ยำไก่เชียง.png",
+            cat: "buddhist",
+          },
+          {
+            name: "กุ้งราดซอสมะขาม + ผัดแขนง",
+            img: "image/ข้าว/กุ้งราดซอสมะขาม + ผัดแขนง.png",
+            cat: "buddhist",
+          },
+          {
+            name: "แกงส้มกุ้ง/ปลากะพง + ทอดมันกุ้ง",
+            img: "image/ข้าว/แกงส้มกุ้ง/ปลากะพง + ทอดมันกุ้ง.png",
+            cat: "buddhist",
+          },
+          {
+            name: "แกงเลียง + ไก่ทอดกระเทียม",
+            img: "image/ข้าว/แกงเลียง + ไก่ทอดกระเทียม.png",
+            cat: "buddhist",
+          },
+          {
+            name: "ข้าวผัดทะเล/หมู/ไก่ + ไข่เจียว/ดาว",
+            img: "image/ข้าว/ข้าวผัดทะเล/หมู/ไก่ + ไข่เจียว/ดาว.png",
+            cat: "buddhist",
+          },
+          {
+            name: "ผัดเผ็ดไก่/กุ้ง/หมึก + ผัดผัก",
+            img: "image/ข้าว/ผัดเผ็ดไก่/กุ้ง/หมึก + ผัดผัก.png",
+            cat: "buddhist",
+          },
+          {
+            name: "ต้มยำกุ้ง/หมึก/ไก่ + หมูทอด",
+            img: "image/ข้าว/ต้มยำกุ้ง/หมึก/ไก่ + หมูทอด.png",
+            cat: "buddhist",
+          },
+          {
+            name: "ต้มยำกุ้ง/หมึก/ไก่ + ยำผักกูด",
+            img: "image/ข้าว/ต้มยำกุ้ง/หมึก/ไก่ + ยำผักกูด.png",
+            cat: "buddhist",
+          },
+          {
+            name: "ข้าวมันแกงไก่ + ไก่ต้มดอกไม้จีน (เมนูแนะนำ)",
+            img: "image/ข้าว/ข้าวมันแกงไก่ + ไก่ต้มดอกไม้จีน.png",
+            cat: "halal",
+          },
+          {
+            name: "แกงส้มกุ้ง + ผัดเหรียงผัดไข่",
+            img: "image/ข้าว/แกงส้มกุ้ง/ปลากะพง + ผัดเหรียงผัดไข่.png",
+            cat: "halal",
+          },
+          {
+            name: "เครื่องแกงกุ้ง + ต้มข่าไก่",
+            img: "image/ข้าว/เครื่องแกงกุ้ง + ต้มข่าไก่.png",
+            cat: "halal",
+          },
+          {
+            name: "ข้าวคลุกกะปิ",
+            img: "image/ข้าว/ข้าวคลุกกะปิ.png",
+            cat: "halal",
+          },
+          {
+            name: "ข้าวน้ำพริกปลาทู",
+            img: "image/ข้าว/ข้าวน้ำพริกปลาทู.png",
+            cat: "halal",
+          },
+          {
+            name: "ต้มยำทะเล + ไข่ดาว",
+            img: "image/ข้าว/ต้มยำทะเล + ไข่ดาว.png",
+            cat: "halal",
+          },
+          {
+            name: "ข้าวพะแนงไก่ + ไข่เจียว",
+            img: "image/ข้าว/ข้าวพะแนงไก่ + ไข่เจียว.png",
+            cat: "halal",
+          },
+          {
+            name: "ข้าวไก่กรอบซอสหม่าล่า",
+            img: "image/ข้าว/ข้าวไก่กรอบซอสหม่าล่า.png",
+            cat: "halal",
+          },
+          {
+            name: "ข้าวไก่กรอบซอสมะขาม",
+            img: "image/ข้าว/ข้าวไก่กรอบซอสมะขาม.png",
+            cat: "halal",
+          },
+          {
+            name: "ผัดฉ่ากุ้ง + พะโล้ไก่",
+            img: "image/ข้าว/ผัดฉ่ากุ้ง + พะโล้ไก่.png",
+            cat: "halal",
+          },
+          {
+            name: "ข้าวไก่กรอบซอสเขียวหวาน",
+            img: "image/ข้าว/ข้าวไก่กรอบซอสเขียวหวาน.png",
+            cat: "halal",
+          },
+          {
+            name: "ข้าวแกงเขียวหวาน + ทอดมันกุ้ง",
+            img: "image/ข้าว/ข้าวแกงเขียวหวาน + ทอดมันกุ้ง.png",
+            cat: "halal",
+          },
+          {
+            name: "ต้มยำกุ้ง + ไก่กระเทียม",
+            img: "image/ข้าว/ต้มยำกุ้ง + ไก่กระเทียม.png",
+            cat: "halal",
+          },
+          {
+            name: "แกงเลียง + ไก่ทอดกระเทียม",
+            img: "image/ข้าว/แกงเลียง + ไก่ทอดกระเทียม.png",
+            cat: "halal",
+          },
+          {
+            name: "แกงส้มปลากะพง + ผัดผักรวม",
+            img: "image/ข้าว/แกงส้มปลากะพง + ผัดผักรวม.png",
+            cat: "halal",
+          },
+          {
+            name: "ไก่ต้มขมิ้น + ปลากะพงทอด",
+            img: "image/ข้าว/ไก่ต้มขมิ้น + ปลากะพงทอด.png",
+            cat: "halal",
+          },
+        ],
+      };
+
+      const packageData = [
+        {
+          time: "เช้า",
+          icon: "☀️",
+          title: "เบรกเช้า",
+          desc: "ขนม 1 รายการ + เครื่องดื่มร้อน/เย็น (ชงสด)",
+          reqs: [
+            {
+              id: "s1",
+              label: "🧁 เลือกขนมเบรก 1 อย่าง",
+              short: "🧁 ขนมเช้า",
+              type: "snacks",
+            },
+            {
+              id: "b1",
+              label: "☕ เลือกเครื่องดื่มร้อน/เย็น",
+              short: "☕ น้ำเช้า",
+              type: "beverages_hot_cold",
+            },
+          ],
+        },
+        {
+          time: "เที่ยง",
+          icon: "🍽️",
+          title: "อาหารกลางวัน",
+          desc: "อาหารกล่อง กับข้าว 2 อย่าง",
+          reqs: [
+            {
+              id: "f1",
+              label: "🍱 เลือกกับข้าวที่ 1",
+              short: "🍱 กับข้าว 1",
+              type: "foods",
+            },
+            {
+              id: "f2",
+              label: "🍱 เลือกกับข้าวที่ 2",
+              short: "🍱 กับข้าว 2",
+              type: "foods",
+            },
+          ],
+        },
+        {
+          time: "บ่าย",
+          icon: "☕",
+          title: "เบรกบ่าย",
+          desc: "ขนม 1 รายการ + น้ำผลไม้กล่อง",
+          reqs: [
+            {
+              id: "s2",
+              label: "🧁 เลือกขนมเบรก 1 อย่าง",
+              short: "🧁 ขนมบ่าย",
+              type: "snacks",
+            },
+            {
+              id: "b2",
+              label: "🥤 เลือกน้ำผลไม้กล่อง",
+              short: "🥤 น้ำบ่าย",
+              type: "beverages_juice",
+            },
+          ],
+        },
+      ];
+
+      let totalReqs = 0;
+      document.addEventListener("DOMContentLoaded", () => {
+        let e = "";
+        packageData.forEach((a) => {
+          let n = "";
+          a.reqs.forEach((req) => {
+            totalReqs++;
+            let items = menuOptions[req.type];
+            let renderGrid = (arr) =>
+              `<div class="grid">` +
+              arr
+                .map(
+                  (item) =>
+                    `<div class="card" data-req="${req.id}" data-val="${item.name}" onclick="selectItem(this, '${req.id}')"><img src="${item.img}" loading="lazy"><div class="card-body"><div class="card-name">${item.name}</div></div></div>`,
+                )
+                .join("") +
+              `</div>`;
+            let gridHtml = "";
+            if (req.type === "foods") {
+              gridHtml += `<div class="cat-title" style="color: var(--primary);">🍲 เมนูอาหารไทยพุทธ</div>${renderGrid(items.filter((i) => i.cat === "buddhist"))}`;
+              gridHtml += `<div class="cat-title" style="color: var(--green); margin-top: 40px;">🕌 เมนูอาหารฮาลาล</div>${renderGrid(items.filter((i) => i.cat === "halal"))}`;
+            } else {
+              gridHtml += renderGrid(items);
+            }
+            n += `<div class="req-box" id="box_${req.id}"><div class="req-label"><span>${req.label}</span><span class="status-badge" id="badge_${req.id}">ยังไม่ได้เลือก</span></div>${gridHtml}<input type="hidden" id="in_${req.id}"></div>`;
+          });
+          e += `<div class="timeline-item"><div class="timeline-icon">${a.icon}</div><div class="timeline-content"><div class="timeline-header"><div class="timeline-time">ช่วง${a.time}</div><div class="timeline-title">${a.title}</div><div class="timeline-desc">${a.desc}</div></div>${n}</div></div>`;
+        });
+        document.getElementById("timeline-area").innerHTML = e;
+        document.getElementById("progress").innerText =
+          `เลือกแล้ว 0/${totalReqs}`;
+      });
+
+      function selectItem(e, a) {
+        document
+          .querySelectorAll(`.card[data-req="${a}"]`)
+          .forEach((el) => el.classList.remove("selected"));
+        e.classList.add("selected");
+        document.getElementById(`in_${a}`).value = e.getAttribute("data-val");
+        let box = document.getElementById(`box_${a}`);
+        box.classList.remove("error");
+        let badge = document.getElementById(`badge_${a}`);
+        badge.classList.remove("error");
+        updateUI();
+        setTimeout(() => {
+          let allBoxes = Array.from(document.querySelectorAll(".req-box"));
+          let nextIncompleteBox = allBoxes.find(
+            (b) => !b.querySelector('input[type="hidden"]').value,
+          );
+          if (nextIncompleteBox) {
+            let parentContent = nextIncompleteBox.closest(".timeline-content");
+            if (nextIncompleteBox === parentContent.querySelector(".req-box")) {
+              nextIncompleteBox
+                .closest(".timeline-item")
+                .scrollIntoView({ behavior: "smooth", block: "start" });
+            } else {
+              nextIncompleteBox.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }
+          }
+        }, 300);
+      }
+
+      function updateUI() {
+        let count = 0;
+        let tagsHtml = "";
+        packageData.forEach((pkg) => {
+          pkg.reqs.forEach((req) => {
+            let val = document.getElementById(`in_${req.id}`).value;
+            if (val) {
+              count++;
+              tagsHtml += `<div class="sum-tag"><span class="lbl">${req.short}:</span><span class="val">${val}</span></div>`;
+              document.getElementById(`badge_${req.id}`).className =
+                "status-badge done";
+              document.getElementById(`badge_${req.id}`).innerText =
+                `✓ เลือกแล้ว`;
+            }
+          });
+        });
+        document.getElementById("summary-text").innerHTML =
+          count > 0
+            ? `<div class="summary-tags-wrapper">${tagsHtml}</div>`
+            : `<div style="color: var(--gray); font-size: 0.95rem; margin-top: 5px;">💡 กรุณาคลิกเลือกเมนูในแต่ละหมวดหมู่ด้านล่าง...</div>`;
+        let progressEl = document.getElementById("progress");
+        let confirmBtn = document.getElementById("confirm-btn");
+        if (count === totalReqs) {
+          progressEl.innerText = `✨ ครบ ${count}/${totalReqs} รายการ`;
+          progressEl.classList.add("complete");
+          confirmBtn.classList.add("ready");
+          confirmBtn.innerText = "ยืนยันการจัดเซตอาหาร ➔";
+        } else {
+          progressEl.innerText = `เลือกแล้ว ${count}/${totalReqs}`;
+          progressEl.classList.remove("complete");
+          confirmBtn.classList.remove("ready");
+          confirmBtn.innerText = "ยืนยันรายการ ➔";
+        }
+      }
+
+      function confirmSelection() {
+        let missingBox = null;
+        let isComplete = true;
+        let summaryText = "สนใจสั่ง: Standard Set (เซตที่ 2)\n----------------------\nเมนูที่เลือก:\n";
+        let summaryHtml = '<strong style="font-size:1.1rem;">Standard Set (เซตที่ 2)</strong><br><div style="margin-top:8px;">';
+
+        document.querySelectorAll(".req-box").forEach((el) => el.classList.remove("error"));
+        document.querySelectorAll(".status-badge").forEach((el) => {
+          if (el.innerText === "ยังไม่ได้เลือก" || el.innerText === "⚠️ กรุณาเลือก") {
+            el.classList.remove("error");
+          }
+        });
+
+        packageData.forEach((t) => {
+          summaryText += `\n[ ${t.title} ]\n`;
+          t.reqs.forEach((req) => {
+            let val = document.getElementById(`in_${req.id}`).value;
+            if (val) {
+              summaryText += `  • ${req.short}: ${val}\n`;
+              summaryHtml += `<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed #ddd;">
+                <span style="color:#4a443e;">${req.short}</span>
+                <span style="color:#2b2b2b;font-weight:500;">${val}</span>
+              </div>`;
+            } else {
+              isComplete = false;
+              let box = document.getElementById(`box_${req.id}`);
+              box.classList.add("error");
+              let badge = document.getElementById(`badge_${req.id}`);
+              badge.classList.add("error");
+              badge.innerText = "⚠️ กรุณาเลือก";
+              if (!missingBox) missingBox = box;
+            }
+          });
+        });
+
+        summaryHtml += '</div>';
+
+        if (!isComplete) {
+          alert("⚠️ กรุณาเลือกเมนูให้ครบทุกรายการก่อนครับ! (สังเกตกล่องสีแดง)");
+          if (missingBox) missingBox.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          // บันทึกใน sessionStorage แล้ว redirect กลับ main.html
+          sessionStorage.setItem('confirmedOrderText', summaryText);
+          sessionStorage.setItem('confirmedOrderPkg', 'standard_set');
+          sessionStorage.setItem('confirmedOrderHtml', summaryHtml);
+          window.location.href = 'main.html#contact';
+        }
+      }
+    </script>
+  </body>
+</html>

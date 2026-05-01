@@ -1,0 +1,1329 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | Science Park Catering</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #2b2b2b;
+        --accent: #c58c41;
+        --accent-light: #d9a562;
+        --accent-warm: #fdf3e1;
+        --green: #10b981;
+        --green-light: #d1fae5;
+        --yellow: #f59e0b;
+        --yellow-light: #fef3c7;
+        --red: #ef4444;
+        --red-light: #fee2e2;
+        --blue: #3b82f6;
+        --blue-light: #dbeafe;
+        --gray: #6b7280;
+        --gray-light: #e5e7eb;
+        --gray-dark: #374151;
+        --bg: #f8f9fa;
+        --white: #ffffff;
+        --sidebar-w: 260px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        --radius: 16px;
+        --transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Sarabun", sans-serif;
+        background: var(--bg);
+        color: var(--gray-dark);
+        display: flex;
+        min-height: 100vh;
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: "Kanit", sans-serif;
+        font-weight: 500;
+      }
+
+      /* LOGIN SCREEN */
+      #login-screen {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: linear-gradient(
+          135deg,
+          #1a1a2e 0%,
+          #2b2b2b 50%,
+          #16213e 100%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .login-box {
+        background: white;
+        border-radius: 28px;
+        padding: 3rem 2.5rem;
+        width: 100%;
+        max-width: 420px;
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+        text-align: center;
+      }
+      .login-logo {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+      .login-box h2 {
+        font-size: 1.6rem;
+        color: var(--primary);
+        margin-bottom: 0.4rem;
+      }
+      .login-box p {
+        color: var(--gray);
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+      }
+      .login-input {
+        width: 100%;
+        padding: 14px 18px;
+        border: 2px solid var(--gray-light);
+        border-radius: 12px;
+        font-family: "Sarabun", sans-serif;
+        font-size: 1rem;
+        outline: none;
+        transition: var(--transition);
+        margin-bottom: 1rem;
+        text-align: center;
+        letter-spacing: 3px;
+        font-size: 1.2rem;
+      }
+      .login-input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px var(--accent-warm);
+      }
+      .login-btn {
+        width: 100%;
+        padding: 16px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-family: "Kanit", sans-serif;
+        font-size: 1.1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+      .login-btn:hover {
+        background: var(--accent);
+        transform: translateY(-2px);
+      }
+      .login-error {
+        color: var(--red);
+        font-size: 0.9rem;
+        margin-top: 0.8rem;
+        display: none;
+      }
+
+      /* SIDEBAR */
+      .sidebar {
+        width: var(--sidebar-w);
+        background: var(--primary);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 100;
+        transition: var(--transition);
+      }
+      .sidebar-logo {
+        padding: 1.8rem 1.5rem 1.2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .sidebar-logo-icon {
+        font-size: 1.8rem;
+        margin-bottom: 0.4rem;
+      }
+      .sidebar-logo h1 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: white;
+        line-height: 1.3;
+      }
+      .sidebar-logo span {
+        font-size: 0.75rem;
+        color: var(--accent-light);
+      }
+      .sidebar-nav {
+        flex: 1;
+        padding: 1rem 0;
+        overflow-y: auto;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0.85rem 1.5rem;
+        cursor: pointer;
+        transition: var(--transition);
+        font-family: "Kanit", sans-serif;
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.65);
+        border-left: 3px solid transparent;
+      }
+      .nav-item:hover {
+        background: rgba(255, 255, 255, 0.07);
+        color: white;
+      }
+      .nav-item.active {
+        background: rgba(197, 140, 65, 0.15);
+        color: var(--accent-light);
+        border-left-color: var(--accent);
+      }
+      .nav-item .nav-icon {
+        font-size: 1.1rem;
+        width: 22px;
+        text-align: center;
+      }
+      .nav-badge {
+        margin-left: auto;
+        background: var(--red);
+        color: white;
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 2px 7px;
+        border-radius: 50px;
+        min-width: 20px;
+        text-align: center;
+      }
+      .sidebar-footer {
+        padding: 1.2rem 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .sidebar-user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .sidebar-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+      }
+      .sidebar-user-info {
+        font-size: 0.85rem;
+      }
+      .sidebar-user-name {
+        color: white;
+        font-weight: 600;
+      }
+      .sidebar-user-role {
+        color: rgba(255, 255, 255, 0.45);
+        font-size: 0.75rem;
+      }
+      .logout-btn {
+        margin-top: 1rem;
+        width: 100%;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: rgba(255, 255, 255, 0.6);
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: "Kanit", sans-serif;
+        font-size: 0.85rem;
+        transition: var(--transition);
+      }
+      .logout-btn:hover {
+        background: var(--red);
+        border-color: var(--red);
+        color: white;
+      }
+
+      /* MAIN CONTENT */
+      .main {
+        margin-left: var(--sidebar-w);
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .topbar {
+        background: white;
+        padding: 1rem 2rem;
+        border-bottom: 1px solid var(--gray-light);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        box-shadow: var(--shadow);
+      }
+      .topbar-title {
+        font-family: "Kanit", sans-serif;
+        font-size: 1.3rem;
+        color: var(--primary);
+      }
+      .topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .topbar-date {
+        font-size: 0.88rem;
+        color: var(--gray);
+      }
+      .notification-btn {
+        position: relative;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--bg);
+        border: 1px solid var(--gray-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: var(--transition);
+      }
+      .notification-btn:hover {
+        background: var(--accent-warm);
+        border-color: var(--accent);
+      }
+      .notif-dot {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 10px;
+        height: 10px;
+        background: var(--red);
+        border-radius: 50%;
+        border: 2px solid white;
+        display: none;
+      }
+      .notif-dot.show {
+        display: block;
+      }
+      .content {
+        padding: 2rem;
+        flex: 1;
+      }
+
+      /* PAGES */
+      .page {
+        display: none;
+      }
+      .page.active {
+        display: block;
+        animation: fadeIn 0.3s ease;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* STATS CARDS */
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.2rem;
+        margin-bottom: 2rem;
+      }
+      .stat-card {
+        background: white;
+        border-radius: var(--radius);
+        padding: 1.4rem 1.5rem;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--gray-light);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        transition: var(--transition);
+      }
+      .stat-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+      .stat-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        flex-shrink: 0;
+      }
+      .stat-icon.orange {
+        background: #fff3e0;
+      }
+      .stat-icon.green {
+        background: var(--green-light);
+      }
+      .stat-icon.blue {
+        background: var(--blue-light);
+      }
+      .stat-icon.yellow {
+        background: var(--yellow-light);
+      }
+      .stat-label {
+        font-size: 0.82rem;
+        color: var(--gray);
+        margin-bottom: 0.25rem;
+      }
+      .stat-value {
+        font-family: "Kanit", sans-serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--primary);
+        line-height: 1;
+      }
+      .stat-sub {
+        font-size: 0.78rem;
+        color: var(--gray);
+        margin-top: 0.2rem;
+      }
+
+      /* FILTER BAR */
+      .filter-bar {
+        background: white;
+        border-radius: var(--radius);
+        padding: 1.1rem 1.4rem;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--gray-light);
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+      }
+      .filter-bar input,
+      .filter-bar select {
+        padding: 9px 14px;
+        border: 1px solid var(--gray-light);
+        border-radius: 10px;
+        font-family: "Sarabun", sans-serif;
+        font-size: 0.92rem;
+        outline: none;
+        transition: var(--transition);
+        background: var(--bg);
+      }
+      .filter-bar input:focus,
+      .filter-bar select:focus {
+        border-color: var(--accent);
+        background: white;
+      }
+      .filter-bar input {
+        flex: 1;
+        min-width: 200px;
+      }
+      .btn-sm {
+        padding: 9px 18px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        font-family: "Kanit", sans-serif;
+        font-size: 0.88rem;
+        font-weight: 500;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+      }
+      .btn-primary:hover {
+        background: var(--accent);
+      }
+      .btn-success {
+        background: var(--green);
+        color: white;
+      }
+      .btn-outline {
+        background: white;
+        color: var(--gray-dark);
+        border: 1px solid var(--gray-light);
+      }
+      .btn-outline:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .btn-danger {
+        background: var(--red);
+        color: white;
+      }
+
+      /* STATUS BADGE */
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px 12px;
+        border-radius: 50px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        font-family: "Kanit", sans-serif;
+      }
+      .status-pending {
+        background: var(--yellow-light);
+        color: #92400e;
+      }
+      .status-confirmed {
+        background: var(--blue-light);
+        color: #1e40af;
+      }
+      .status-done {
+        background: var(--green-light);
+        color: #065f46;
+      }
+      .status-cancelled {
+        background: var(--red-light);
+        color: #991b1b;
+      }
+
+      /* ORDER TABLE */
+      .table-wrap {
+        background: white;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        border: 1px solid var(--gray-light);
+        overflow: hidden;
+      }
+      .table-head {
+        padding: 1.2rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--gray-light);
+      }
+      .table-head h3 {
+        font-size: 1.05rem;
+        color: var(--primary);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      thead th {
+        background: #f9fafb;
+        padding: 0.85rem 1rem;
+        text-align: left;
+        font-family: "Kanit", sans-serif;
+        font-size: 0.82rem;
+        color: var(--gray);
+        font-weight: 500;
+        border-bottom: 1px solid var(--gray-light);
+        white-space: nowrap;
+      }
+      tbody td {
+        padding: 0.9rem 1rem;
+        border-bottom: 1px solid #f3f4f6;
+        font-size: 0.88rem;
+        vertical-align: top;
+      }
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+      tbody tr:hover td {
+        background: #fafafa;
+      }
+      .order-id {
+        font-family: "Kanit", sans-serif;
+        font-weight: 600;
+        color: var(--primary);
+        font-size: 0.85rem;
+      }
+      .order-name {
+        font-weight: 600;
+        color: var(--gray-dark);
+      }
+      .order-org {
+        font-size: 0.8rem;
+        color: var(--gray);
+        margin-top: 2px;
+      }
+      .action-btns {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .action-btn {
+        padding: 5px 12px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-size: 0.78rem;
+        font-family: "Kanit", sans-serif;
+        font-weight: 500;
+        transition: var(--transition);
+      }
+      .btn-confirm-o {
+        background: var(--blue-light);
+        color: #1e40af;
+      }
+      .btn-confirm-o:hover {
+        background: var(--blue);
+        color: white;
+      }
+      .btn-done-o {
+        background: var(--green-light);
+        color: #065f46;
+      }
+      .btn-done-o:hover {
+        background: var(--green);
+        color: white;
+      }
+      .btn-cancel-o {
+        background: var(--red-light);
+        color: #991b1b;
+      }
+      .btn-cancel-o:hover {
+        background: var(--red);
+        color: white;
+      }
+      .btn-view-o {
+        background: #f3f4f6;
+        color: var(--gray-dark);
+      }
+      .btn-view-o:hover {
+        background: var(--primary);
+        color: white;
+      }
+      .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: var(--gray);
+      }
+      .empty-state .empty-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      /* ORDER DETAIL MODAL */
+      .modal-bg {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(6px);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: var(--transition);
+      }
+      .modal-bg.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .modal-box {
+        background: white;
+        border-radius: 24px;
+        width: 100%;
+        max-width: 560px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+        transform: translateY(20px) scale(0.97);
+        transition: var(--transition);
+      }
+      .modal-bg.open .modal-box {
+        transform: translateY(0) scale(1);
+      }
+      .modal-header {
+        padding: 1.5rem 1.8rem 1rem;
+        border-bottom: 1px solid var(--gray-light);
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+      .modal-header h3 {
+        font-size: 1.2rem;
+        color: var(--primary);
+      }
+      .modal-close-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: #f3f4f6;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+      }
+      .modal-close-btn:hover {
+        background: var(--red);
+        color: white;
+      }
+      .modal-body {
+        padding: 1.5rem 1.8rem;
+      }
+      .detail-row {
+        display: flex;
+        gap: 1rem;
+        padding: 0.65rem 0;
+        border-bottom: 1px dashed #f3f4f6;
+        font-size: 0.9rem;
+      }
+      .detail-label {
+        min-width: 130px;
+        color: var(--gray);
+        flex-shrink: 0;
+      }
+      .detail-value {
+        color: var(--gray-dark);
+        font-weight: 500;
+        flex: 1;
+      }
+      .detail-menu-box {
+        background: var(--bg);
+        border-radius: 12px;
+        padding: 1rem;
+        margin-top: 0.5rem;
+        font-size: 0.85rem;
+        line-height: 1.8;
+        color: var(--gray-dark);
+        white-space: pre-wrap;
+      }
+      .modal-footer-btns {
+        padding: 1rem 1.8rem 1.5rem;
+        display: flex;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+        border-top: 1px solid var(--gray-light);
+      }
+
+      /* SETTINGS PAGE */
+      .settings-card {
+        background: white;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        border: 1px solid var(--gray-light);
+        padding: 2rem;
+        max-width: 500px;
+        margin-bottom: 1.5rem;
+      }
+      .settings-card h3 {
+        font-size: 1.05rem;
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.8rem;
+        border-bottom: 1px solid var(--gray-light);
+      }
+      .setting-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.8rem 0;
+        border-bottom: 1px dashed var(--gray-light);
+      }
+      .setting-label {
+        font-size: 0.92rem;
+        color: var(--gray-dark);
+      }
+      .setting-sub {
+        font-size: 0.78rem;
+        color: var(--gray);
+        margin-top: 2px;
+      }
+      .pwd-input-row {
+        display: flex;
+        gap: 0.8rem;
+        margin-top: 1rem;
+      }
+      .pwd-input-row input {
+        flex: 1;
+        padding: 10px 14px;
+        border: 1px solid var(--gray-light);
+        border-radius: 10px;
+        font-family: "Sarabun", sans-serif;
+        outline: none;
+        transition: var(--transition);
+      }
+      .pwd-input-row input:focus {
+        border-color: var(--accent);
+      }
+
+      /* TOAST */
+      .admin-toast {
+        position: fixed;
+        bottom: 28px;
+        right: 28px;
+        z-index: 9999;
+        background: var(--primary);
+        color: white;
+        padding: 14px 22px;
+        border-radius: 12px;
+        font-family: "Kanit", sans-serif;
+        font-size: 0.95rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        transform: translateY(80px);
+        opacity: 0;
+        transition: all 0.4s ease;
+        border-left: 4px solid var(--green);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .admin-toast.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 900px) {
+        .stats-row {
+          grid-template-columns: 1fr 1fr;
+        }
+        .sidebar {
+          transform: translateX(-100%);
+        }
+        .sidebar.mobile-open {
+          transform: translateX(0);
+        }
+        .main {
+          margin-left: 0;
+        }
+        .hamburger-btn {
+          display: flex !important;
+        }
+      }
+      @media (max-width: 600px) {
+        .stats-row {
+          grid-template-columns: 1fr;
+        }
+        .content {
+          padding: 1.2rem;
+        }
+        .filter-bar {
+          flex-direction: column;
+        }
+        .filter-bar input {
+          min-width: unset;
+        }
+        thead th:nth-child(3),
+        thead th:nth-child(6),
+        tbody td:nth-child(3),
+        tbody td:nth-child(6) {
+          display: none;
+        }
+      }
+      .hamburger-btn {
+        display: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: var(--bg);
+        border: 1px solid var(--gray-light);
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 1.2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="login-screen">
+      <div class="login-box">
+        <div class="login-logo">🔐</div>
+        <h2>Admin Dashboard</h2>
+        <p>Science Park Catering<br />กรอกรหัสผ่านเพื่อเข้าใช้งาน</p>
+        <input
+          type="password"
+          class="login-input"
+          id="login-pwd"
+          placeholder="••••••••"
+          maxlength="20"
+          onkeydown="if (event.key === 'Enter') doLogin();"
+        />
+        <button class="login-btn" onclick="doLogin()">เข้าสู่ระบบ</button>
+        <div class="login-error" id="login-error">❌ รหัสผ่านไม่ถูกต้อง</div>
+        <p style="margin-top: 1.5rem; font-size: 0.78rem; color: #9ca3af">
+          รหัสเริ่มต้น: <strong>admin1234</strong><br />เปลี่ยนได้ในหน้า
+          Settings
+        </p>
+      </div>
+    </div>
+
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">🍴</div>
+        <h1>Science Park<br />Catering</h1>
+        <span>Admin Dashboard</span>
+      </div>
+      <nav class="sidebar-nav">
+        <div
+          class="nav-item active"
+          onclick="showPage('orders')"
+          data-page="orders"
+        >
+          <span class="nav-icon">📋</span> ออเดอร์ทั้งหมด
+          <span class="nav-badge" id="pending-badge" style="display: none"
+            >0</span
+          >
+        </div>
+        <div
+          class="nav-item"
+          onclick="showPage('settings')"
+          data-page="settings"
+        >
+          <span class="nav-icon">⚙️</span> ตั้งค่า
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="logout-btn" onclick="doLogout()">ออกจากระบบ</button>
+      </div>
+    </aside>
+
+    <div class="main" id="main-content">
+      <div class="topbar">
+        <div style="display: flex; align-items: center; gap: 1rem">
+          <button
+            class="hamburger-btn"
+            id="hamburger-btn"
+            onclick="toggleSidebar()"
+          >
+            ☰
+          </button>
+          <div class="topbar-title" id="topbar-title">📋 ออเดอร์ทั้งหมด</div>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-date" id="topbar-date"></div>
+          <div
+            class="notification-btn"
+            onclick="showPage('orders')"
+            title="ออเดอร์ใหม่"
+          >
+            🔔
+            <div class="notif-dot" id="notif-dot"></div>
+          </div>
+          <a
+            href="main.html"
+            class="btn-sm btn-outline"
+            style="text-decoration: none"
+            >← กลับหน้าหลัก</a
+          >
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="page active" id="page-orders">
+          <div class="stats-row" id="stats-row">
+            <div class="stat-card">
+              <div class="stat-icon orange">📋</div>
+              <div>
+                <div class="stat-label">ออเดอร์ทั้งหมด</div>
+                <div class="stat-value" id="s-total">0</div>
+                <div class="stat-sub">รายการ</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon yellow">⏳</div>
+              <div>
+                <div class="stat-label">รอยืนยัน</div>
+                <div class="stat-value" id="s-pending">0</div>
+                <div class="stat-sub">รายการ</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon blue">✅</div>
+              <div>
+                <div class="stat-label">ยืนยันแล้ว</div>
+                <div class="stat-value" id="s-confirmed">0</div>
+                <div class="stat-sub">รายการ</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon green">🎉</div>
+              <div>
+                <div class="stat-label">เสร็จสิ้น</div>
+                <div class="stat-value" id="s-done">0</div>
+                <div class="stat-sub">รายการ</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-bar">
+            <input
+              type="text"
+              id="search-input"
+              placeholder="🔍 ค้นหาชื่อ / หน่วยงาน / เบอร์โทร..."
+              oninput="renderTable()"
+            />
+            <select id="filter-status" onchange="renderTable()">
+              <option value="">สถานะทั้งหมด</option>
+              <option value="pending">⏳ รอยืนยัน</option>
+              <option value="confirmed">✅ ยืนยันแล้ว</option>
+              <option value="done">🎉 เสร็จสิ้น</option>
+              <option value="cancelled">❌ ยกเลิก</option>
+            </select>
+            <button class="btn-sm btn-outline" onclick="clearFilters()">
+              ล้างตัวกรอง
+            </button>
+          </div>
+
+          <div class="table-wrap">
+            <div class="table-head">
+              <h3>
+                รายการออเดอร์
+                <span
+                  id="order-count"
+                  style="
+                    font-size: 0.85rem;
+                    color: var(--gray);
+                    font-weight: 400;
+                  "
+                ></span>
+              </h3>
+            </div>
+            <div id="orders-table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>รหัสออเดอร์</th>
+                    <th>ผู้สั่ง / หน่วยงาน</th>
+                    <th>เบอร์โทร</th>
+                    <th>วันที่งาน</th>
+                    <th>บริการ / จำนวน</th>
+                    <th>สถานะ</th>
+                    <th>การจัดการ</th>
+                  </tr>
+                </thead>
+                <tbody id="orders-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="page" id="page-settings">
+          <div class="settings-card">
+            <h3>🔐 ความปลอดภัย</h3>
+            <div class="setting-row">
+              <div>
+                <div class="setting-label">เปลี่ยนรหัสผ่าน Admin</div>
+                <div class="setting-sub">รหัสเริ่มต้น: admin1234</div>
+              </div>
+            </div>
+            <div class="pwd-input-row">
+              <input type="password" id="new-pwd" placeholder="รหัสผ่านใหม่" />
+              <input
+                type="password"
+                id="confirm-pwd"
+                placeholder="ยืนยันรหัสผ่าน"
+              />
+              <button class="btn-sm btn-primary" onclick="changePassword()">
+                บันทึก
+              </button>
+            </div>
+          </div>
+          <div class="settings-card">
+            <h3>🗑️ จัดการข้อมูล</h3>
+            <div class="setting-row">
+              <div>
+                <div class="setting-label">ลบออเดอร์ทั้งหมด (Reset)</div>
+                <div class="setting-sub">ล้างข้อมูลทั้งหมดในระบบ</div>
+              </div>
+              <button class="btn-sm btn-danger" onclick="clearAllOrders()">
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-bg" id="order-modal">
+      <div class="modal-box">
+        <div class="modal-header">
+          <div>
+            <h3 id="modal-order-id">ORD-xxxx</h3>
+            <div id="modal-status-badge" style="margin-top: 6px"></div>
+          </div>
+          <button class="modal-close-btn" onclick="closeOrderModal()">✕</button>
+        </div>
+        <div class="modal-body" id="modal-body-content"></div>
+        <div class="modal-footer-btns" id="modal-action-btns"></div>
+      </div>
+    </div>
+
+    <div class="admin-toast" id="admin-toast"></div>
+
+    <script>
+      const STORAGE_KEY = "sp_orders";
+      const PWD_KEY = "sp_admin_pwd";
+      const DEFAULT_PWD = "admin1234";
+      const SESSION_KEY = "sp_admin_session";
+
+      // LOGIN LOGIC
+      function doLogin() {
+        const pwd = document.getElementById("login-pwd").value;
+        const stored = localStorage.getItem(PWD_KEY) || DEFAULT_PWD;
+        if (pwd === stored) {
+          sessionStorage.setItem(SESSION_KEY, "1");
+          document.getElementById("login-screen").style.display = "none";
+          initDashboard();
+        } else {
+          document.getElementById("login-error").style.display = "block";
+          document.getElementById("login-pwd").value = "";
+          setTimeout(
+            () =>
+              (document.getElementById("login-error").style.display = "none"),
+            2500,
+          );
+        }
+      }
+      function doLogout() {
+        if (!confirm("ออกจากระบบ?")) return;
+        sessionStorage.removeItem(SESSION_KEY);
+        location.reload();
+      }
+      if (sessionStorage.getItem(SESSION_KEY)) {
+        document.getElementById("login-screen").style.display = "none";
+        window.addEventListener("DOMContentLoaded", initDashboard);
+      }
+
+      // ORDER LOGIC
+      function getOrders() {
+        try {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        } catch (e) {
+          return [];
+        }
+      }
+      function saveOrders(orders) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(orders));
+      }
+
+      function updateOrderStatus(id, status) {
+        const orders = getOrders();
+        const idx = orders.findIndex((o) => o.id === id);
+        if (idx === -1) return;
+        orders[idx].status = status;
+        saveOrders(orders);
+        renderTable();
+        updateStats();
+        updateNotifDot();
+        showToast(
+          status === "confirmed"
+            ? "✅ ยืนยันแล้ว"
+            : status === "done"
+              ? "🎉 เสร็จสิ้น"
+              : "❌ ยกเลิกแล้ว",
+        );
+      }
+
+      function initDashboard() {
+        renderTable();
+        updateStats();
+        updateNotifDot();
+        window.addEventListener("storage", (e) => {
+          if (e.key === STORAGE_KEY) {
+            renderTable();
+            updateStats();
+            updateNotifDot();
+          }
+        });
+      }
+
+      function showPage(name) {
+        document
+          .querySelectorAll(".page")
+          .forEach((p) => p.classList.remove("active"));
+        document
+          .querySelectorAll(".nav-item")
+          .forEach((n) => n.classList.remove("active"));
+        document.getElementById("page-" + name).classList.add("active");
+        document
+          .querySelector(`.nav-item[data-page="${name}"]`)
+          .classList.add("active");
+      }
+
+      function renderTable() {
+        const search = document
+          .getElementById("search-input")
+          .value.toLowerCase();
+        const statusF = document.getElementById("filter-status").value;
+        let orders = getOrders();
+
+        if (search)
+          orders = orders.filter(
+            (o) =>
+              (o.name || "").toLowerCase().includes(search) ||
+              (o.tel || "").includes(search),
+          );
+        if (statusF) orders = orders.filter((o) => o.status === statusF);
+
+        document.getElementById("order-count").textContent =
+          `(${orders.length} รายการ)`;
+        const tbody = document.getElementById("orders-tbody");
+
+        if (!orders.length) {
+          tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><h3>ยังไม่มีออเดอร์</h3></div></td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = orders
+          .map(
+            (o) => `
+          <tr>
+            <td><div class="order-id">${o.id}</div></td>
+            <td><div class="order-name">${esc(o.name)}</div><div class="order-org">${esc(o.org)}</div></td>
+            <td>${esc(o.tel)}</td>
+            <td>${o.date || "-"}</td>
+            <td><div style="font-size:0.82rem;font-weight:500;">${esc(o.type || "-")}</div><div style="font-size:0.78rem;">${o.qty} ท่าน</div></td>
+            <td>${statusBadge(o.status)}</td>
+            <td>
+              <div class="action-btns">
+                <button class="action-btn btn-view-o" onclick="openOrderModal('${o.id}')">👁 ดู</button>
+                ${o.status === "pending" ? `<button class="action-btn btn-confirm-o" onclick="updateOrderStatus('${o.id}','confirmed')">✅</button>` : ""}
+                ${o.status === "confirmed" ? `<button class="action-btn btn-done-o" onclick="updateOrderStatus('${o.id}','done')">🎉</button>` : ""}
+              </div>
+            </td>
+          </tr>
+        `,
+          )
+          .join("");
+      }
+
+      function openOrderModal(id) {
+        const o = getOrders().find((x) => x.id === id);
+        if (!o) return;
+        document.getElementById("modal-order-id").textContent = o.id;
+        document.getElementById("modal-status-badge").innerHTML = statusBadge(
+          o.status,
+        );
+        document.getElementById("modal-body-content").innerHTML = `
+          <div class="detail-row"><div class="detail-label">ชื่อผู้ติดต่อ</div><div class="detail-value">${esc(o.name)}</div></div>
+          <div class="detail-row"><div class="detail-label">เบอร์โทรศัพท์</div><div class="detail-value">${esc(o.tel)}</div></div>
+          <div class="detail-row"><div class="detail-label">บริการ</div><div class="detail-value">${esc(o.type)} (${o.qty} ท่าน)</div></div>
+          <div class="detail-row" style="flex-direction:column;gap:0.5rem;">
+            <div class="detail-label">เมนูที่เลือก</div>
+            <div class="detail-menu-box">${esc(o.menuSummary)}</div>
+          </div>
+          ${o.notes ? `<div class="detail-row"><div class="detail-label">หมายเหตุ</div><div class="detail-value">${esc(o.notes)}</div></div>` : ""}
+        `;
+        document.getElementById("order-modal").classList.add("open");
+      }
+      function closeOrderModal() {
+        document.getElementById("order-modal").classList.remove("open");
+      }
+
+      function updateStats() {
+        const orders = getOrders();
+        document.getElementById("s-total").textContent = orders.length;
+        document.getElementById("s-pending").textContent = orders.filter(
+          (o) => o.status === "pending",
+        ).length;
+        document.getElementById("s-confirmed").textContent = orders.filter(
+          (o) => o.status === "confirmed",
+        ).length;
+        document.getElementById("s-done").textContent = orders.filter(
+          (o) => o.status === "done",
+        ).length;
+
+        const badge = document.getElementById("pending-badge");
+        const pCount = orders.filter((o) => o.status === "pending").length;
+        badge.textContent = pCount;
+        badge.style.display = pCount ? "inline-flex" : "none";
+      }
+      function updateNotifDot() {
+        document
+          .getElementById("notif-dot")
+          .classList.toggle(
+            "show",
+            getOrders().filter((o) => o.status === "pending").length > 0,
+          );
+      }
+
+      function changePassword() {
+        const p1 = document.getElementById("new-pwd").value;
+        const p2 = document.getElementById("confirm-pwd").value;
+        if (!p1 || p1.length < 4) {
+          showToast("❌ รหัสต้องมีอย่างน้อย 4 ตัวอักษร");
+          return;
+        }
+        if (p1 !== p2) {
+          showToast("❌ รหัสผ่านไม่ตรงกัน");
+          return;
+        }
+        localStorage.setItem(PWD_KEY, p1);
+        document.getElementById("new-pwd").value = "";
+        document.getElementById("confirm-pwd").value = "";
+        showToast("✅ เปลี่ยนรหัสผ่านสำเร็จ");
+      }
+
+      function clearAllOrders() {
+        if (!confirm("⚠️ ลบออเดอร์ทั้งหมด? ไม่สามารถกู้คืนได้")) return;
+        saveOrders([]);
+        renderTable();
+        updateStats();
+        showToast("🗑️ ลบข้อมูลทั้งหมดแล้ว");
+      }
+      function clearFilters() {
+        document.getElementById("search-input").value = "";
+        document.getElementById("filter-status").value = "";
+        renderTable();
+      }
+
+      // UTILS
+      function esc(s) {
+        return String(s || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+      function statusBadge(s) {
+        const map = {
+          pending: "⏳ รอยืนยัน",
+          confirmed: "✅ ยืนยันแล้ว",
+          done: "🎉 เสร็จสิ้น",
+          cancelled: "❌ ยกเลิก",
+        };
+        return `<span class="status-badge status-${s}">${map[s] || s}</span>`;
+      }
+      function showToast(msg) {
+        const t = document.getElementById("admin-toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 3500);
+      }
+      function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("mobile-open");
+      }
+    </script>
+  </body>
+</html>
